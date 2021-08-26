@@ -1,0 +1,15 @@
+[package]
+name = "auth-filter"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+path = "src/lib.rs"
+crate-type = ["cdylib"]
+name = "authfilter"
+
+[dependencies]
+log = "0.4.8"
+proxy-wasm = "0.1.4"
