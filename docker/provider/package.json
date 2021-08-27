@@ -1,0 +1,13 @@
+{
+  "name": "Provider",
+  "version": "0.0.1",
+  "description": "App the accepts requests from the Consumer service",
+  "author": "Chris MacPherson <chris@macpherson.dev>",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

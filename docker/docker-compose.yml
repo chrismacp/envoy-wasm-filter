@@ -6,29 +6,40 @@ services:
       context: ./envoy
       dockerfile: Dockerfile
     volumes:
-      - ./envoy/envoy-bootstrap-v2.yml:/etc/envoy.yaml
+      - ./envoy/envoy-bootstrap-v3.yml:/etc/envoy.yaml
       - ../target/wasm32-unknown-unknown/release/authfilter.wasm:/etc/authfilter.wasm
-    networks:
-      - envoymesh
-    expose:
-      - "80"
-      - "8001"
-    ports:
-      - "18000:80"
-      - "18001:8001"
-
-  web_service:
-    image: hashicorp/http-echo
-    command:
-      - '-text="Check response headers for a message from macp"'
     networks:
       envoymesh:
         aliases:
-          - web_service
+          - provider.front
     expose:
-      - "5678"
+      - "8200"
+      - "8201"
     ports:
-      - "18080:5678"
+      - "8200:8200"
+      - "8001:8001"
+
+  provider:
+    build: ./provider
+    networks:
+      envoymesh:
+        aliases:
+          - provider.backend
+    expose:
+      - "8300"
+    ports:
+      - "8300:8300"
+
+  consumer:
+    build: ./consumer
+    networks:
+      envoymesh:
+        aliases:
+          - consumer.service
+    expose:
+      - "8100"
+    ports:
+      - "8100:8100"
 
 networks:
   envoymesh: {}
