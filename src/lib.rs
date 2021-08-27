@@ -34,13 +34,13 @@ impl wasm::traits::HttpContext for HelloWorld {
             }
         }
 
-        self.set_http_request_header("x-hello", Some(&format!("Hello world from {}", authority)));
+        self.set_http_request_header("filter-added", Some(&format!("Hello from {}", authority)));
 
         Action::Continue
     }
 
     fn on_http_response_headers(&mut self, _: usize) -> Action {
-        self.set_http_response_header("macp-goodbye", Some("to you sir"));
+        self.set_http_response_header("filter-added", Some("Proxy processed this request"));
         Action::Continue
     }
 }

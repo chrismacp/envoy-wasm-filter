@@ -12,11 +12,14 @@ const HOST = '0.0.0.0';
 // App
 const app = express();
 app.get('/', (req, res) => {
-  // Make a request for a user with a given ID
+  // Make a request to the Provider Service via the proxy
   axios.get('http://provider.front:8200/')
     .then(function (response) {
       // handle success
-      res.send(`Made a request to the Provider service and received:\n\n${response.data}`);
+      console.log(response.headers);
+      res.send(`Made a request to the Provider service and received:\n\n
+                Response: ${response.data}\n\n
+                Consumer received response header ('filter-added'): ${response.headers['filter-added']}`);
     })
     .catch(function (error) {
       // handle error
