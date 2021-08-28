@@ -1,12 +1,18 @@
 # Rust WebAssembly Envoy Filter
 
-I wanted to check out the status of WebAssembly with a mind to to create an Envoy filter. 
+I wanted to check out the status of WebAssembly and see how easy it is to create an Envoy filter. 
 This is what I managed to piece together in August 2021. 
 
 The Envoy filter is built using Rust (which I'm new to!) and added to a vanilla version of Envoy v1.19.x.
 
+I followed guidance from these two posts, but more useful links posted at the bottom:
+- [https://antweiss.com/blog/extending-envoy-with-wasm-and-rust/](https://antweiss.com/blog/extending-envoy-with-wasm-and-rust/)
+- [https://blog.red-badger.com/extending-istio-with-rust-and-webassembly](https://blog.red-badger.com/extending-istio-with-rust-and-webassembly)
+
 ## Demo
 There is a Docker Compose file which starts up a provider service behind envoy and a consumer service to consume from it.
+
+The provider service checks for an auth token - **the aim is to move this to the filter in case you see this before I get that done**
 
 Use the Makefile to start it up
 
@@ -36,7 +42,7 @@ Use the Makefile to start it up
 
 ## WASM Filter
 
-The filter simply adds two headers to the requests it handles:
+The filter currently just adds two headers to the requests it handles:
 
 **Request Header** called 'filter-added'
 
@@ -50,5 +56,22 @@ Run
 make build 
 
 # Deploy the demo 
-make deploy-docker 
+make start 
 ```
+
+## Make requests
+```
+# Successful request (default role = admin)
+http localhost:8100/
+curl localhost:8100/
+
+# Unsuccessful request
+http localhost:8100/ role==somethingelse
+curl localhost:8100/?role=somethingelse
+
+```
+
+## Useful Links
+- [https://github.com/proxy-wasm/proxy-wasm-rust-sdk](https://github.com/proxy-wasm/proxy-wasm-rust-sdk)
+- [https://nodejs.org/api/crypto.html#crypto_crypto_sign_algorithm_data_key_callback](https://nodejs.org/api/crypto.html#crypto_crypto_sign_algorithm_data_key_callback)
+- 

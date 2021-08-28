@@ -1,10 +1,11 @@
 
-
 build:
 	cargo build --target wasm32-unknown-unknown --release
 
+start: stop
+	cd docker && docker-compose up --build -d
 
-deploy-docker: 
-	cd docker && docker-compose up --build
+stop: 
+	cd docker && docker-compose down
 
-.PHONY: build build-filter-image push-filter-image deploy-docker
+.PHONY: build start stop
